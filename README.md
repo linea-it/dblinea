@@ -9,9 +9,9 @@ Useful to retrieve data inside LIneA's JupyterHub platform.
 
 ## Installation
 
-Install **linea-db** with _conda_
+Install **linea-db** with pip
 ```bash
-  conda install linea-db
+  pip install linea-db
 ```
 
 
