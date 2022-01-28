@@ -30,7 +30,7 @@ setup(
 
     # Either the link to your github or to your website
     url='https://github.com/linea-it/lineadb',
-    # # Link from which the project can be downloaded
-    # download_url='',
+    # Link from which the project can be downloaded
+    # download_url='https://github.com/linea-it/lineadb/archive/refs/tags/v0.1.0-alpha.tar.gz',
 
 )
