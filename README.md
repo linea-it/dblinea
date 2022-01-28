@@ -60,7 +60,7 @@ python setup.py pytest
 Fazer o Build: <https://medium.com/analytics-vidhya/how-to-create-a-python-library-7d5aea80cc3f>
 
 ```bash
-python setup.py bdist_wheel
+python setup.py sdist bdist_wheel
 ```
 
 ### Testando o pacote apos o build
@@ -95,4 +95,26 @@ Type "help", "copyright", "credits" or "license" for more information.
 Engine(postgresql+psycopg2://untrustedprod:***@desdb4.linea.gov.br:5432/prod_gavo)
 >>> 
 
+```
+
+### Publish in PyPi Test
+
+Check if build is ok for publish
+
+```bash
+python -m twine check dist/*
+```
+
+```bash
+python -m twine upload --verbose --repository testpypi dist/*
+```
+
+Check in <https://test.pypi.org/manage/project/dblinea/releases/>
+
+### Publish in PyPi Oficial
+
+<https://realpython.com/pypi-publish-python-package/>
+
+```bash
+twine upload dist/*
 ```
