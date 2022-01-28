@@ -73,7 +73,7 @@ pip install --force-reinstall <path>/dist/wheelfile.whl
 Abrir um terminal e importar a classe DBBase. ou utilizar o comando. 
 
 ```bash
-python -c 'from lineadb import DBBase'
+python -c 'from dblinea import DBBase'
 ```
 
 Outro Teste
@@ -83,9 +83,9 @@ Outro Teste
 Python 3.8.12 (default, Jan 28 2022, 15:50:21) 
 [GCC 7.5.0] on linux
 Type "help", "copyright", "credits" or "license" for more information.
->>> from lineadb import DBBase
->>> db = DBBase()
->>> db.get_engine()
+>>> from dblinea import DBBase
+>>> a = DBBase()
+>>> a.get_engine()
 Engine(postgresql+psycopg2://untrustedprod:***@desdb4.linea.gov.br:5432/prod_gavo)
 >>> 
 
