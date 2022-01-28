@@ -1,7 +1,7 @@
 # linea-db
 
-Python library to access LIneA's database from Python code. 
-Useful to retrieve data inside LIneA's JupyterHub platform. 
+Python library to access LIneA's database from Python code.
+Useful to retrieve data inside LIneA's JupyterHub platform.
 
 ## Authors
 
@@ -18,12 +18,18 @@ Install **linea-db** with pip
 
 ## Requirements
 
-* pandas
-* sqlalchemy
+* sqlalchemy>=1.4.31
+* psycopg2>=2.9.1
+* numpy>=1.19.4
+* pandas>=1.2
+
+```bash
+pip install sqlalchemy psycopg2 numpy pandas
+```
 
 ## Future plans
 
-Sub-package to allow users to send user-generated data products to LIneA Science Server (e.g., a list of targets for visual inspection). 
+Sub-package to allow users to send user-generated data products to LIneA Science Server (e.g., a list of targets for visual inspection).
 
 ### Development
 
@@ -51,7 +57,7 @@ Executar os testes:
 python setup.py pytest
 ```
 
-Fazer o Build: https://medium.com/analytics-vidhya/how-to-create-a-python-library-7d5aea80cc3f
+Fazer o Build: <https://medium.com/analytics-vidhya/how-to-create-a-python-library-7d5aea80cc3f>
 
 ```bash
 python setup.py bdist_wheel
@@ -70,7 +76,7 @@ Para instalar usando o pacote local
 pip install --force-reinstall <path>/dist/wheelfile.whl
 ```
 
-Abrir um terminal e importar a classe DBBase. ou utilizar o comando. 
+Abrir um terminal e importar a classe DBBase. ou utilizar o comando.
 
 ```bash
 python -c 'from dblinea import DBBase'
