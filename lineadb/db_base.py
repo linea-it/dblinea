@@ -7,7 +7,7 @@ from sqlalchemy import Date, MetaData, Table, cast, func, inspect
 from sqlalchemy.pool import NullPool
 from sqlalchemy.sql import select, text
 
-from db_postgresql import DBPostgresql
+from lineadb.db_postgresql import DBPostgresql
 
 
 class DBBase():
@@ -24,11 +24,6 @@ class DBBase():
             "USER": "untrustedprod",
             "PASSWORD": "untrusted",
             "DATABASE": "prod_gavo",
-            # "HOST": "172.18.0.2",
-            # "PORT": "5432",
-            # "USER": "postgres",
-            # "PASSWORD": "postgres",
-            # "DATABASE": "tno_v2"
         }
     })
 

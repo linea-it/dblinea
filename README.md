@@ -19,24 +19,25 @@ Install **linea-db** with pip
 ## Requirements
 
 * pandas
-* sqlalchemy 
+* sqlalchemy
 
-## Future plans 
+## Future plans
 
 Sub-package to allow users to send user-generated data products to LIneA Science Server (e.g., a list of targets for visual inspection). 
 
-### Requirements
+### Development
 
 Python 3.8: <https://tecadmin.net/install-python-3-8-ubuntu/>
 
 * Dependencias:
 
 ```bash
-sudo apt-get install libreadline-gplv2-dev libncursesw5-dev libssl-dev     libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev libffi-dev zlib1g-dev
+sudo apt-get install libreadline-gplv2-dev libncursesw5-dev libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev libffi-dev zlib1g-dev liblzma-dev
 ```
 
 ```bash
 python3.8 -m venv env
+source env/bin/activate
 pip install --upgrade pip
 ```
 
@@ -54,4 +55,23 @@ Fazer o Build: https://medium.com/analytics-vidhya/how-to-create-a-python-librar
 
 ```bash
 python setup.py bdist_wheel
+```
+
+### Testando o pacote apos o build
+
+```bash
+python3.8 -m venv env
+source env/bin/activate
+```
+
+Para instalar usando o pacote local
+
+```bash
+pip install --force-reinstall <path>/dist/wheelfile.whl
+```
+
+Abrir um terminal e importar a classe DBBase. ou utilizar o comando. 
+
+```bash
+python -c 'from lineadb import DBBase'
 ```
