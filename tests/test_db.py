@@ -5,6 +5,7 @@ from sqlalchemy.sql.elements import TextClause
 from sqlalchemy.types import INTEGER, VARCHAR
 from pandas.testing import assert_frame_equal
 import pandas as pd
+import os
 
 
 class TestAbilityToTest(unittest.TestCase):
@@ -15,11 +16,11 @@ class TestAbilityToTest(unittest.TestCase):
 
 class TestDaoPostgres(unittest.TestCase):
     def setUp(self):
-        #    url = os.getenv("DB_TEST_URL")
-        self.dbhost = "localhost"
-        self.dbport = "5432"
-        self.dbuser = "postgres"
-        self.dbpass = "postgres"
+
+        self.dbhost = os.environ.get("POSTGRES_HOST", "localhost")
+        self.dbport = os.environ.get("POSTGRES_PORT", "5432")
+        self.dbuser = os.environ.get("POSTGRES_USER", "postgres")
+        self.dbpass = os.environ.get("POSTGRES_PASSWORD", "postgres")
         self.dbname = "db_test"
 
         self.schema = "sch_test"

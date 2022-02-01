@@ -1,5 +1,11 @@
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
+import os
+
+dbhost = os.environ.get("POSTGRES_HOST", "localhost")
+dbport = os.environ.get("POSTGRES_PORT", "5432")
+dbuser = os.environ.get("POSTGRES_USER", "postgres")
+dbpass = os.environ.get("POSTGRES_PASSWORD", "postgres")
 
 con = psycopg2.connect(
     host="localhost", user="postgres", password="postgres", port=5432
