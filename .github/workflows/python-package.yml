@@ -16,7 +16,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.8", "3.9", "3.10"]
+        # python-version: ["3.8", "3.9", "3.10"]
+        python-version: ["3.8"]
 
     # Service containers to run with `container-job`
     services:
@@ -28,7 +29,6 @@ jobs:
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-          POSTGRES_PORT: 5432
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
@@ -48,20 +48,17 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        python -m pip install flake8 black pytest
+        python -m pip install flake8 black pytest pytest-cov
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Lint with flake8 and Black
       run: |
         # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics       
         
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        #flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-        
-        # Any error will stop the build. The GitHub editor is 127 chars wide
-        #flake8 . --count --max-complexity=10 --max-line-length=127 --statistics  
-        
-        # Any error will stop the build. The GitHub editor is 127 chars wide
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+               
+        # Any error reported by black will stop the build.
         black . --check
         
     - name: Setup Test Database
@@ -80,6 +77,8 @@ jobs:
         # The default PostgreSQL Password
         POSTGRES_PASSWORD: postgres
     
-    - name: Test with pytest
+    - name: Test with pytest   
       run: |
-        pytest
+        pytest --cov=./dblinea --cov-report xml
+
+
