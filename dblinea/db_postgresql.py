@@ -9,15 +9,27 @@ class DBPostgresql:
         self.db_settings = db_settings
 
     def get_db_uri(self):
-        url = (
-            "postgresql+psycopg2://%(username)s:%(password)s@%(host)s:%(port)s/%(database)s"
-        ) % {
-            "username": self.db_settings["USER"],
-            "password": self.db_settings["PASSWORD"],
-            "host": self.db_settings["HOST"],
-            "port": self.db_settings["PORT"],
-            "database": self.db_settings["DATABASE"],
-        }
+
+        database = self.db_settings.get("DATABASE", None)
+        if database is not None:
+            url = (
+                "postgresql+psycopg2://%(username)s:%(password)s@%(host)s:%(port)s/%(database)s"
+            ) % {
+                "username": self.db_settings.get("USER"),
+                "password": self.db_settings.get("PASSWORD"),
+                "host": self.db_settings.get("HOST", "localhost"),
+                "port": self.db_settings.get("PORT", "5432"),
+                "database": database,
+            }
+        else:
+            url = (
+                "postgresql+psycopg2://%(username)s:%(password)s@%(host)s:%(port)s/"
+            ) % {
+                "username": self.db_settings.get("USER"),
+                "password": self.db_settings.get("PASSWORD"),
+                "host": self.db_settings.get("HOST", "localhost"),
+                "port": self.db_settings.get("PORT", "5432"),
+            }
         return url
 
     def get_engine(self):

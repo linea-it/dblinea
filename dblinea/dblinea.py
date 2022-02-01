@@ -3,7 +3,7 @@ import collections
 
 import pandas as pd
 from sqlalchemy import MetaData, Table, inspect
-from sqlalchemy.sql import select, text
+from sqlalchemy.sql import text
 
 from dblinea.db_postgresql import DBPostgresql
 
@@ -27,9 +27,40 @@ class DBBase:
         }
     )
 
-    def __init__(self, database="gavo"):
+    def __init__(
+        self,
+        database="gavo",
+        dbhost=None,
+        dbname=None,
+        dbuser=None,
+        dbpass=None,
+        dbport=None,
+        dbengine="postgresql_psycopg2",
+    ):
+        # Se todas as variaveis de configuração forem None
+        # Vai criar a conexão usando um dos available_databases.
+        # Default "gavo" ou o valor informado pelo usuario em database
+        if all(x is None for x in [dbhost, dbname, dbuser, dbpass, dbport]):
+            self.__set_database(database)
+        else:
+            # Se ao menos umas dessas variaveis
+            # [dbhost, dbname, dbuser, dbpass, dbport]
+            # For diferente de None, vai tentar criar uma conexão
+            # usando os dados que o usuario passou.
+            # Util para:
+            # - Acessar outros bancos de dados que o usuario tenha acesso
+            # - Conectar ao banco usando suas credenciais
+            # - Para executar os Unit tests fora do ambiente.
+            db_settings = {
+                "ENGINE": dbengine,
+                "HOST": dbhost,
+                "PORT": "5432",
+                "USER": dbuser,
+                "PASSWORD": dbpass,
+                "DATABASE": dbname,
+            }
 
-        self.__set_database(database)
+            self.database = DBPostgresql(db_settings)
 
     def __set_database(self, database):
 
@@ -243,51 +274,3 @@ class DBBase:
             cols.append(dict({"name": c["name"], "type": c["type"]}))
 
         return cols
-
-
-if __name__ == "__main__":
-
-    try:
-        print("Instanciando a DAO")
-        dao = DBBase(database="gavo")
-
-        print("Executando query de Teste")
-        # Instancia sqlalchemy table
-        # tbl = dao.get_table('des_ccd')
-        tbl = dao.get_table("coadd_objects", schema="des_dr2")
-        # Select simples com limit
-        stm = select(tbl.c).limit(10)
-        # # Executa a query e retorna uma lista de dicts
-        rows = dao.fetchall_dict(stm)
-        # rows = dao.fetchall(stm)
-        print(rows)
-        # # Executa a query e retorna só o primeiro
-        # first_row = dao.fetchone_dict(stm)
-        # print(first_row)
-        # rows = dao.fetchall(stm)
-        # first_row = dao.fetchone(stm)
-        # print(rows)
-
-        # Executar uma RAW SQL
-        # sql = "Select * from des_ccd limit 5"
-        # rows = dao.fetchall(sql)
-        # print(rows)
-        # row = dao.fetchone(sql)
-        # print(row)
-        # first_column = dao.fetch_scalar(sql)
-        # print(first_column)
-        # Count com RAW SQL
-        # sql = "Select count(*) from des_ccd limit 5"
-        # count = dao.fetch_scalar(sql)
-        # print(count)
-
-        # # Lista de colunas de uma tabela
-        # columns = dao.get_table_columns('des_ccd')
-        # print(columns)
-
-        # Lista de colunas com o tipo de uma tabela
-        # columns = dao.describe_table('des_ccd')
-        # print(columns)
-
-    except Exception as e:
-        print(e)
