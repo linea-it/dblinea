@@ -118,3 +118,5 @@ Check in <https://test.pypi.org/manage/project/dblinea/releases/>
 ```bash
 twine upload dist/*
 ```
+
+# TODO: Fazer um novo build, para testar no Jupyter Notebook.
