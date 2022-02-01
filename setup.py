@@ -5,16 +5,14 @@ with open("README.md", "r") as fh:
 
 setup(
     name="dblinea",
-    packages=find_packages(include=['dblinea']),
+    packages=find_packages(include=["dblinea"]),
     version="0.1.6",
-    description="Python library to access LIneA's database from Python code. Useful to retrieve data inside LIneA's JupyterHub platform.",
+    description="Python library to access LIneA's database from Python code. "
+    "Useful to retrieve data inside LIneA's JupyterHub platform.",
     author="Glauber Costa Vila Verde",
     license="MIT",
-    python_requires='>=3.8',
-    setup_requires=[
-        "pytest-runner",
-        "numpy"
-    ],
+    python_requires=">=3.8",
+    setup_requires=["pytest-runner", "numpy"],
     install_requires=[
         "sqlalchemy>=1.4.25",
         "psycopg2>=2.9.1",
@@ -23,15 +21,11 @@ setup(
     ],
     tests_require=["pytest==4.4.1"],
     test_suite="tests",
-
     # Long description of your library
     long_description=long_description,
-    long_description_content_type='text/markdown',
-
+    long_description_content_type="text/markdown",
     # Either the link to your github or to your website
-    url='https://github.com/linea-it/dblinea',
+    url="https://github.com/linea-it/dblinea",
     # Link from which the project can be downloaded
     # download_url='https://github.com/linea-it/lineadb/archive/refs/tags/v0.1.0-alpha.tar.gz',
-
 )
-# "psycopg2-binary",

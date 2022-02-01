@@ -1,31 +1,31 @@
 # -*- coding: utf-8 -*-
 import collections
-import os
 
 import pandas as pd
-from sqlalchemy import Date, MetaData, Table, cast, func, inspect
-from sqlalchemy.pool import NullPool
+from sqlalchemy import MetaData, Table, inspect
 from sqlalchemy.sql import select, text
 
 from dblinea.db_postgresql import DBPostgresql
 
 
-class DBBase():
+class DBBase:
 
     database = None
     engine = None
 
     # TODO: OS dados de coneção com o banco devem vir de outro lugar!
-    available_databases = dict({
-        "gavo": {
-            "ENGINE": "postgresql_psycopg2",
-            "HOST": "desdb4.linea.gov.br",
-            "PORT": "5432",
-            "USER": "untrustedprod",
-            "PASSWORD": "untrusted",
-            "DATABASE": "prod_gavo",
+    available_databases = dict(
+        {
+            "gavo": {
+                "ENGINE": "postgresql_psycopg2",
+                "HOST": "desdb4.linea.gov.br",
+                "PORT": "5432",
+                "USER": "untrustedprod",
+                "PASSWORD": "untrusted",
+                "DATABASE": "prod_gavo",
+            }
         }
-    })
+    )
 
     def __init__(self, database="gavo"):
 
@@ -48,7 +48,7 @@ class DBBase():
         #     return DBOracle(db_settings)
 
     def get_engine(self):
-        """Retorna uma instancia de engine para o database solicitado na Instancia da DBBase.
+        """Retorna uma instancia de Engine para o database solicitado na Instancia da DBBase.
         https://docs.sqlalchemy.org/en/14/core/connections.html#sqlalchemy.engine.Engine
 
         Returns:
@@ -73,14 +73,13 @@ class DBBase():
             sqlalchemy.schema.Table: instancia de Table representando a tabela solicitada.
         """
         engine = self.get_engine()
-        tbl = Table(
-            tablename, MetaData(engine), autoload=True, schema=schema)
+        tbl = Table(tablename, MetaData(engine), autoload=True, schema=schema)
         return tbl
 
     def execute(self, stm):
-        """Executa a query usando con.execute, 
+        """Executa a query usando con.execute,
         recomendada para query de Delete, Update ou outras querys que não precisem de iteração com o resultado.
-        OBS. esta query fecha o conexão logo após ser executada. 
+        OBS. esta query fecha o conexão logo após ser executada.
 
         Args:
             stm (statement): Query a ser executada, pode ser escrita em SqlAlchemy ou string no caso de string ela sera convertida para TextClause.
@@ -100,7 +99,7 @@ class DBBase():
         Returns:
             list: Lista com os resultado no formato original do SqlAlchemy LegacyRow.
         """
-        # Conver Raw sql to Sql Alchemy TextClause
+        # Convert Raw sql to Sql Alchemy TextClause
         stm = self.raw_sql_to_stm(stm)
 
         with self.get_engine().connect() as con:
@@ -116,7 +115,7 @@ class DBBase():
         Returns:
             list: O resultado da query em uma lista de Dict({'col': 'value', ..., 'coln':'valuen'})
         """
-        # Conver Raw sql to Sql Alchemy TextClause
+        # Convert Raw sql to Sql Alchemy TextClause
         stm = self.raw_sql_to_stm(stm)
 
         with self.get_engine().connect() as con:
@@ -137,10 +136,7 @@ class DBBase():
         Returns:
             Pandas.Dataframe: Dataframe com o resultado da query.
         """
-        df = pd.read_sql(
-            stm,
-            con=self.get_engine()
-        )
+        df = pd.read_sql(stm, con=self.get_engine())
 
         return df
 
@@ -154,7 +150,7 @@ class DBBase():
             sqlalchemy.engine.row.LegacyRow: Primeira linha do resultado da query.
         """
 
-        # Conver Raw sql to Sql Alchemy TextClause
+        # Convert Raw sql to Sql Alchemy TextClause
         stm = self.raw_sql_to_stm(stm)
 
         with self.get_engine().connect() as con:
@@ -170,7 +166,7 @@ class DBBase():
         Returns:
             dict: Primeira linha do resultado da query.
         """
-        # Conver Raw sql to Sql Alchemy TextClause
+        # Convert Raw sql to Sql Alchemy TextClause
         stm = self.raw_sql_to_stm(stm)
 
         with self.get_engine().connect() as con:
@@ -191,7 +187,7 @@ class DBBase():
         Returns:
             any: Valor da primeira coluna na primeira linha.
         """
-        # Conver Raw sql to Sql Alchemy TextClause
+        # Convert Raw sql to Sql Alchemy TextClause
         stm = self.raw_sql_to_stm(stm)
 
         with self.get_engine().connect() as con:
@@ -223,31 +219,28 @@ class DBBase():
 
     def get_table_columns(self, tablename, schema=None):
         """Retorna os nomes das colunas de uma tabela.
-            Args:
-                tablename (string): Nome da tabela sem schema.
-                schema (string): Nome do schema ou None quando nao houver.
-            Returns:
-                columns (list): Colunas disponiveis na tabela
+        Args:
+            tablename (string): Nome da tabela sem schema.
+            schema (string): Nome do schema ou None quando nao houver.
+        Returns:
+            columns (list): Colunas disponiveis na tabela
         """
         insp = inspect(self.get_engine())
-        return [value['name'] for value in insp.get_columns(tablename, schema)]
+        return [value["name"] for value in insp.get_columns(tablename, schema)]
 
     def describe_table(self, tablename, schema=None):
         """Retorna o nome e o tipo das colunas de uma tabela.
-            Args:
-                tablename (string): Nome da tabela sem schema.
-                schema (string): Nome do schema ou None quando nao houver.
-            Returns:
-                columns (list): Lista de colunas com seu tipo {"name": "", "type": ""}
+        Args:
+            tablename (string): Nome da tabela sem schema.
+            schema (string): Nome do schema ou None quando nao houver.
+        Returns:
+            columns (list): Lista de colunas com seu tipo {"name": "", "type": ""}
         """
         cols = list()
 
         insp = inspect(self.get_engine())
         for c in insp.get_columns(tablename, schema):
-            cols.append(dict({
-                "name": c["name"],
-                "type": c["type"]
-            }))
+            cols.append(dict({"name": c["name"], "type": c["type"]}))
 
         return cols
 
@@ -260,7 +253,7 @@ if __name__ == "__main__":
 
         print("Executando query de Teste")
         # Instancia sqlalchemy table
-        #tbl = dao.get_table('des_ccd')
+        # tbl = dao.get_table('des_ccd')
         tbl = dao.get_table("coadd_objects", schema="des_dr2")
         # Select simples com limit
         stm = select(tbl.c).limit(10)

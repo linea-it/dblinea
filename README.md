@@ -42,13 +42,13 @@ sudo apt-get install libreadline-gplv2-dev libncursesw5-dev libssl-dev libsqlite
 ```
 
 ```bash
-python3.8 -m venv env
-source env/bin/activate
+python3.8 -m venv venv
+source venv/bin/activate
 pip install --upgrade pip
 ```
 
 ```bash
-pip install wheel setuptools twine pytest pytest-runner
+pip install wheel setuptools twine pytest pytest-runner black
 ```
 
 Executar os testes:
@@ -66,8 +66,8 @@ python setup.py sdist bdist_wheel
 ### Testando o pacote apos o build
 
 ```bash
-python3.8 -m venv env
-source env/bin/activate
+python3.8 -m venv venv
+source venv/bin/activate
 ```
 
 Para instalar usando o pacote local
@@ -119,4 +119,17 @@ Check in <https://test.pypi.org/manage/project/dblinea/releases/>
 twine upload dist/*
 ```
 
-# TODO: Fazer um novo build, para testar no Jupyter Notebook.
+# TODO: Fazer um novo build, para testar no Jupyter Notebook
+
+Executar o Lint em busca de errors de sintaxe ou formatação.
+```bash
+black . --check
+```
+Executar o Lint para corrigir automaticamente os errors encontrados.
+```bash
+black .
+```
+
+<!-- ```bash
+flake8 . --count  --max-complexity=10 --max-line-length=127 --statistics
+``` -->

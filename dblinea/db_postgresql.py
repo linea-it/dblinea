@@ -9,20 +9,19 @@ class DBPostgresql:
         self.db_settings = db_settings
 
     def get_db_uri(self):
-        url = ("postgresql+psycopg2://%(username)s:%(password)s@%(host)s:%(port)s/%(database)s") % {
-            'username': self.db_settings['USER'],
-            'password': self.db_settings['PASSWORD'],
-            'host': self.db_settings['HOST'],
-            'port': self.db_settings['PORT'],
-            'database': self.db_settings['DATABASE']
+        url = (
+            "postgresql+psycopg2://%(username)s:%(password)s@%(host)s:%(port)s/%(database)s"
+        ) % {
+            "username": self.db_settings["USER"],
+            "password": self.db_settings["PASSWORD"],
+            "host": self.db_settings["HOST"],
+            "port": self.db_settings["PORT"],
+            "database": self.db_settings["DATABASE"],
         }
         return url
 
     def get_engine(self):
-        return create_engine(
-            self.get_db_uri(),
-            poolclass=NullPool
-        )
+        return create_engine(self.get_db_uri(), poolclass=NullPool)
 
     def get_engine_name(self):
         return "postgresql_psycopg2"
