@@ -5,6 +5,14 @@ from sqlalchemy.sql import and_, or_, text
 
 
 class DBPostgresql:
+
+    __engine_name = "postgresql_psycopg2"
+
+    __dialect = postgresql
+
+    # Bulk Insert (se é possivel fazer inserts em blocos.)
+    __bulk_insert = True
+
     def __init__(self, db_settings):
         self.db_settings = db_settings
 
@@ -12,7 +20,7 @@ class DBPostgresql:
 
         database = self.db_settings.get("DATABASE", None)
         if database is not None:
-            url = (
+            uri = (
                 "postgresql+psycopg2://%(username)s:%(password)s@%(host)s:%(port)s/%(database)s"
             ) % {
                 "username": self.db_settings.get("USER"),
@@ -22,35 +30,31 @@ class DBPostgresql:
                 "database": database,
             }
         else:
-            url = (
-                "postgresql+psycopg2://%(username)s:%(password)s@%(host)s:%(port)s/"
+            uri = (
+                "postgresql+psycopg2://%(username)s:%(password)s@%(host)s:%(port)s"
             ) % {
                 "username": self.db_settings.get("USER"),
                 "password": self.db_settings.get("PASSWORD"),
                 "host": self.db_settings.get("HOST", "localhost"),
                 "port": self.db_settings.get("PORT", "5432"),
             }
-        return url
+        return uri
 
     def get_engine(self):
         return create_engine(self.get_db_uri(), poolclass=NullPool)
 
     def get_engine_name(self):
-        return "postgresql_psycopg2"
+        return self.__engine_name
 
     def get_dialect(self):
-        return postgresql
+        return self.__dialect
 
     def accept_bulk_insert(self):
-        return True
+        return self.__bulk_insert
 
-    def get_table_name(self, table):
-        return table
-
-    def get_schema_name(self, schema):
-        return schema
-
-    def get_condition_square(self, lowerleft, upperright, property_ra, property_dec):
+    def get_condition_square(
+        self, lowerleft, upperright, property_ra="ra", property_dec="dec"
+    ):
 
         raul = float(lowerleft[0])
         decul = float(upperright[1])
@@ -69,7 +73,14 @@ class DBPostgresql:
         ll = "{%s, %s}" % (rall, decll)
 
         # ul, ur, lr, ll
-        stm = "q3c_poly_query(ra, dec, '{ %s, %s, %s, %s}')" % (ul, ur, lr, ll)
+        stm = "q3c_poly_query(%s, %s, '{ %s, %s, %s, %s}')" % (
+            property_ra,
+            property_dec,
+            ul,
+            ur,
+            lr,
+            ll,
+        )
 
         return and_(text(stm)).self_group()
 

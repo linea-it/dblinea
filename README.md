@@ -53,13 +53,13 @@ pip install --upgrade pip
 ```
 
 ```bash
-pip install wheel setuptools twine pytest pytest-runner black
+pip install wheel setuptools twine pytest pytest-runner pytest-cov black
 ```
 
 Executar os testes:
 
 ```bash
-python setup.py pytest
+python setup.py pytest --cov --cov-report term-missing --cov-report html
 ```
 
 Fazer o Build: <https://medium.com/analytics-vidhya/how-to-create-a-python-library-7d5aea80cc3f>

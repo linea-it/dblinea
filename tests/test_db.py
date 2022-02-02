@@ -1,11 +1,15 @@
+import os
 import unittest
+
+import pandas as pd
 from dblinea import DBBase
+from pandas.testing import assert_frame_equal
+from sqlalchemy import Table
+from sqlalchemy.dialects import postgresql
+from sqlalchemy.engine import Engine
 from sqlalchemy.engine.cursor import LegacyCursorResult
 from sqlalchemy.sql.elements import TextClause
 from sqlalchemy.types import INTEGER, VARCHAR
-from pandas.testing import assert_frame_equal
-import pandas as pd
-import os
 
 
 class TestAbilityToTest(unittest.TestCase):
@@ -49,6 +53,55 @@ class TestDaoPostgres(unittest.TestCase):
 
         self.assertEqual(self.dao.database.get_db_uri(), uri)
 
+    def test_get_db_uri_without_dbname(self):
+        dao = DBBase(
+            dbhost=self.dbhost,
+            dbport=self.dbport,
+            dbuser=self.dbuser,
+            dbpass=self.dbpass,
+        )
+
+        uri = "postgresql+psycopg2://postgres:postgres@localhost:5432"
+
+        self.assertEqual(dao.database.get_db_uri(), uri)
+
+    def test_set_database(self):
+
+        dao = DBBase(database="gavo")
+
+        engine = dao.get_engine()
+
+        self.assertTrue(isinstance(engine, Engine))
+
+    def test_set_database_not_available(self):
+
+        self.assertRaises(Exception, DBBase.__init__, "test")
+
+        # Same Test using Context
+        with self.assertRaises(Exception) as context:
+            DBBase(database="test")
+        self.assertTrue("Banco de dados não disponivel ainda" in str(context.exception))
+
+    def test_get_engine_name(self):
+
+        self.assertEqual(self.dao.database.get_engine_name(), "postgresql_psycopg2")
+
+    def test_get_dialect(self):
+
+        self.assertEqual(self.dao.database.get_dialect(), postgresql)
+
+    def test_accept_bulk_insert(self):
+
+        self.assertTrue(self.dao.database.accept_bulk_insert())
+
+    def test_get_table(self):
+
+        tbl = self.dao.get_table(self.table, self.schema)
+
+        self.assertTrue(isinstance(tbl, Table))
+
+        self.assertEqual(tbl.name, self.table)
+
     def test_execute(self):
 
         sql = "insert into {schema}.{table} values (1, 'jose', 30)".format(
@@ -78,12 +131,6 @@ class TestDaoPostgres(unittest.TestCase):
 
     def test_fetchall_df(self):
 
-        row = [{"id": 1, "name": "jose", "age": 30}]
-
-        self.assertEqual(self.dao.fetchall_dict(self.select_sql), row)
-
-    def test_fetchall_df(self):
-
         df = pd.DataFrame([{"id": 1, "name": "jose", "age": 30}])
 
         assert_frame_equal(self.dao.fetchall_df(self.select_sql), df)
@@ -97,8 +144,11 @@ class TestDaoPostgres(unittest.TestCase):
     def test_fetchone_dict(self):
 
         row = {"id": 1, "name": "jose", "age": 30}
-
         self.assertEqual(self.dao.fetchone_dict(self.select_sql), row)
+
+        # Checks to return None when no results are found.
+        sql = "Select * from {}.{} where id = 2".format(self.schema, self.table)
+        self.assertEqual(self.dao.fetchone_dict(sql), None)
 
     def test_fetc_scalar(self):
 
@@ -114,14 +164,15 @@ class TestDaoPostgres(unittest.TestCase):
 
     def test_raw_sql_to_stm(self):
 
-        row = {"id": 1, "name": "jose", "age": 30}
-
-        stm = self.dao.raw_sql_to_stm(self.select_sql)
+        stm = self.dao.raw_sql_to_stm(str(self.select_sql))
 
         self.assertTrue(isinstance(stm, TextClause))
 
         # Double Check
         self.assertEqual(self.select_sql, str(stm))
+
+        # Check if a statement is passed.
+        self.assertEqual(self.dao.raw_sql_to_stm(stm), stm)
 
     def test_get_table_columns(self):
 
@@ -142,6 +193,9 @@ class TestDaoPostgres(unittest.TestCase):
             str(self.dao.describe_table(self.table, self.schema)), str(columns)
         )
 
+    def test_get_condition_square(self):
 
-if __name__ == "__main__":
-    unittest.main()
+        sql = "q3c_poly_query(ra, dec, '{ {10.0, 40.0}, {30.0, 40.0}, {30.0, 20.0}, {10.0, 20.0}}')"
+        stm = self.dao.database.get_condition_square([10, 20], [30, 40], "ra", "dec")
+
+        self.assertEqual(str(stm), sql)
