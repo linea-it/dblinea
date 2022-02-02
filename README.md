@@ -1,13 +1,8 @@
 # LIneA Database Library
+
 ---
 [![Python package](https://github.com/linea-it/dblinea/actions/workflows/python-package.yml/badge.svg?branch=main)](https://github.com/linea-it/dblinea/actions/workflows/python-package.yml)
 [![Coverage Status](https://coveralls.io/repos/github/linea-it/dblinea/badge.svg?branch=main)](https://coveralls.io/github/linea-it/dblinea?branch=main)
-<<<<<<< HEAD
-=======
-
-
-# dblinea
->>>>>>> 9bd1b984e56a7febec8fde0508a67f7edf2dd3c9
 
 Python library to access LIneA's database from Python code.
 Useful to retrieve data inside LIneA's JupyterHub platform.
@@ -129,10 +124,13 @@ twine upload dist/*
 ```
 
 Executar o Lint em busca de errors de sintaxe ou formatação.
+
 ```bash
 black . --check
 ```
+
 Executar o Lint para corrigir automaticamente os errors encontrados.
+
 ```bash
 black .
 ```
@@ -140,3 +138,18 @@ black .
 <!-- ```bash
 flake8 . --count  --max-complexity=10 --max-line-length=127 --statistics
 ``` -->
+
+### Documentation with sphinx
+
+Generate Api Docs
+
+```bash
+cd docs
+sphinx-apidoc -f -o ./source ../dblinea
+```
+
+Build html docs
+
+```bash
+make html
+```
