@@ -1,4 +1,9 @@
-# linea-db
+
+[![Python package](https://github.com/linea-it/dblinea/actions/workflows/python-package.yml/badge.svg?branch=main)](https://github.com/linea-it/dblinea/actions/workflows/python-package.yml)
+[![Coverage Status](https://coveralls.io/repos/github/linea-it/dblinea/badge.svg)](https://coveralls.io/github/linea-it/dblinea)
+
+
+# dblinea
 
 Python library to access LIneA's database from Python code.
 Useful to retrieve data inside LIneA's JupyterHub platform.
@@ -10,18 +15,18 @@ Useful to retrieve data inside LIneA's JupyterHub platform.
 
 ## Installation
 
-Install **linea-db** with pip
+Install **dblinea** with pip
 
 ```bash
-  pip install linea-db
+  pip install dblinea
 ```
 
 ## Requirements
 
-* sqlalchemy>=1.4.31
+* sqlalchemy>=1.4.25
 * psycopg2>=2.9.1
 * numpy>=1.19.4
-* pandas>=1.2
+* pandas>=1.2.0
 
 ```bash
 pip install sqlalchemy psycopg2 numpy pandas
@@ -118,8 +123,6 @@ Check in <https://test.pypi.org/manage/project/dblinea/releases/>
 ```bash
 twine upload dist/*
 ```
-
-# TODO: Fazer um novo build, para testar no Jupyter Notebook
 
 Executar o Lint em busca de errors de sintaxe ou formatação.
 ```bash

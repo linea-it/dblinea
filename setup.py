@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 setup(
     name="dblinea",
     packages=find_packages(include=["dblinea"]),
-    version="0.1.6",
+    version="0.1.7",
     description="Python library to access LIneA's database from Python code. "
     "Useful to retrieve data inside LIneA's JupyterHub platform.",
     author="Glauber Costa Vila Verde",
