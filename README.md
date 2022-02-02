@@ -153,3 +153,5 @@ Build html docs
 ```bash
 make html
 ```
+
+# TODO: Trocar Coveralls por codecov <https://about.codecov.io/>
