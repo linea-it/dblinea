@@ -1,6 +1,7 @@
 # LIneA Database Library
 
 ---
+
 [![Python package](https://github.com/linea-it/dblinea/actions/workflows/python-package.yml/badge.svg?branch=main)](https://github.com/linea-it/dblinea/actions/workflows/python-package.yml)
 [![Coverage Status](https://coveralls.io/repos/github/linea-it/dblinea/badge.svg?branch=main)](https://coveralls.io/github/linea-it/dblinea?branch=main)
 
@@ -72,6 +73,10 @@ python setup.py sdist bdist_wheel
 ```bash
 python3.8 -m venv venv
 source venv/bin/activate
+```
+
+```bash
+pip install sqlalchemy psycopg2 numpy pandas
 ```
 
 Para instalar usando o pacote local
