@@ -2,12 +2,6 @@
 ---
 [![Python package](https://github.com/linea-it/dblinea/actions/workflows/python-package.yml/badge.svg?branch=main)](https://github.com/linea-it/dblinea/actions/workflows/python-package.yml)
 [![Coverage Status](https://coveralls.io/repos/github/linea-it/dblinea/badge.svg?branch=main)](https://coveralls.io/github/linea-it/dblinea?branch=main)
-<<<<<<< HEAD
-=======
-
-
-# dblinea
->>>>>>> 9bd1b984e56a7febec8fde0508a67f7edf2dd3c9
 
 Python library to access LIneA's database from Python code.
 Useful to retrieve data inside LIneA's JupyterHub platform.
