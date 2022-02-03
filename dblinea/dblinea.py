@@ -10,11 +10,11 @@ from dblinea.db_postgresql import DBPostgresql
 
 class DBBase:
 
-    __database = None
-    __engine = None
+    _database = None
+    _engine = None
 
     # TODO: OS dados de coneção com o banco devem vir de outro lugar!
-    available_databases = dict(
+    _available_databases = dict(
         {
             "gavo": {
                 "ENGINE": "postgresql_psycopg2",
@@ -38,7 +38,7 @@ class DBBase:
         dbengine="postgresql_psycopg2",
     ):
         # Se todas as variaveis de configuração forem None
-        # Vai criar a conexão usando um dos available_databases.
+        # Vai criar a conexão usando um dos _available_databases.
         # Default "gavo" ou o valor informado pelo usuario em database
         if all(x is None for x in [dbhost, dbname, dbuser, dbpass, dbport]):
             self.__set_database(database)
@@ -60,36 +60,63 @@ class DBBase:
                 "DATABASE": dbname,
             }
 
-            self.__database = DBPostgresql(db_settings)
+            self._database = DBPostgresql(db_settings)
 
     def __set_database(self, database):
         """Instancia a classe de Banco de dados.
 
         Este Metodo é utilizado quando é passado o
         parametro database na instancia da Classe.
-        verifica se o database está na lista available_databases
+        verifica se o database está na lista _available_databases
 
         Args:
             database (str): Nome do database como está no
-            atributo available_databases.
+            atributo _available_databases.
 
         Raises:
             ValueError: Database not available.
         """
 
-        if database not in self.available_databases:
+        if database not in self._available_databases:
             raise ValueError("Database not available.")
 
-        db_settings = self.available_databases[database]
+        db_settings = self._available_databases[database]
 
         if db_settings["ENGINE"] == "postgresql_psycopg2":
-            self.__database = DBPostgresql(db_settings)
+            self._database = DBPostgresql(db_settings)
 
         # if db["ENGINE"] == "sqlite3":
         #     return DBSqlite(db)
 
         # if db_settings["ENGINE"] == "oracle":
         #     return DBOracle(db_settings)
+
+    def available_databases(self):
+        """Lista os bancos de dados disponiveis
+
+        Returns:
+            Lista de databases pre configurados na bibloteca.
+            cada elemento da lista representa um db.
+
+            exemplo:
+            [{'config_name': 'gavo', 'dbname': 'prod_gavo',
+            'host': 'desdb4.linea.gov.br', 'engine': 'postgresql_psycopg2'}]
+        """
+
+        dbs = list()
+        for config_name in self._available_databases:
+            dbs.append(
+                dict(
+                    {
+                        "config_name": config_name,
+                        "dbname": self._available_databases[config_name]["DATABASE"],
+                        "host": self._available_databases[config_name]["HOST"],
+                        "engine": self._available_databases[config_name]["ENGINE"],
+                    }
+                )
+            )
+
+        return dbs
 
     def get_engine(self):
         """Retorna uma sqlalchemy.Engine
@@ -102,11 +129,11 @@ class DBBase:
             sqlalchemy.engine.Engine:
         """
 
-        if self.__engine is None:
+        if self._engine is None:
 
-            self.__engine = self.__database.get_engine()
+            self._engine = self._database.get_engine()
 
-        return self.__engine
+        return self._engine
 
     def get_table(self, tablename, schema=None):
         """Retona uma instancia de sqlalchemy.schema.Table que representa uma tabela no database.

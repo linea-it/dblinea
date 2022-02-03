@@ -51,7 +51,7 @@ class TestDaoPostgres(unittest.TestCase):
             "database": self.dbname,
         }
 
-        self.assertEqual(self.dao.database.get_db_uri(), uri)
+        self.assertEqual(self.dao._database.get_db_uri(), uri)
 
     def test_get_db_uri_without_dbname(self):
         dao = DBBase(
@@ -63,7 +63,7 @@ class TestDaoPostgres(unittest.TestCase):
 
         uri = "postgresql+psycopg2://postgres:postgres@localhost:5432"
 
-        self.assertEqual(dao.database.get_db_uri(), uri)
+        self.assertEqual(dao._database.get_db_uri(), uri)
 
     def test_set_database(self):
 
@@ -80,19 +80,31 @@ class TestDaoPostgres(unittest.TestCase):
         # Same Test using Context
         with self.assertRaises(Exception) as context:
             DBBase(database="test")
-        self.assertTrue("Banco de dados não disponivel ainda" in str(context.exception))
+        self.assertTrue("Database not available." in str(context.exception))
+
+    def test_available_databases(self):
+
+        rows = [
+            {
+                "config_name": "gavo",
+                "dbname": "prod_gavo",
+                "host": "desdb4.linea.gov.br",
+                "engine": "postgresql_psycopg2",
+            }
+        ]
+        self.assertEqual(self.dao.available_databases(), rows)
 
     def test_get_engine_name(self):
 
-        self.assertEqual(self.dao.database.get_engine_name(), "postgresql_psycopg2")
+        self.assertEqual(self.dao._database.get_engine_name(), "postgresql_psycopg2")
 
     def test_get_dialect(self):
 
-        self.assertEqual(self.dao.database.get_dialect(), postgresql)
+        self.assertEqual(self.dao._database.get_dialect(), postgresql)
 
     def test_accept_bulk_insert(self):
 
-        self.assertTrue(self.dao.database.accept_bulk_insert())
+        self.assertTrue(self.dao._database.accept_bulk_insert())
 
     def test_get_table(self):
 
@@ -196,6 +208,6 @@ class TestDaoPostgres(unittest.TestCase):
     def test_get_condition_square(self):
 
         sql = "q3c_poly_query(ra, dec, '{ {10.0, 40.0}, {30.0, 40.0}, {30.0, 20.0}, {10.0, 20.0}}')"
-        stm = self.dao.database.get_condition_square([10, 20], [30, 40], "ra", "dec")
+        stm = self.dao._database.get_condition_square([10, 20], [30, 40], "ra", "dec")
 
         self.assertEqual(str(stm), sql)
