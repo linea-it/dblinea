@@ -78,3 +78,5 @@ todo_include_todos = True
 
 
 master_doc = "index"
+
+autodoc_mock_imports = ["pandas"]
