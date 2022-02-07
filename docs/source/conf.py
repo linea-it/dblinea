@@ -79,4 +79,9 @@ todo_include_todos = True
 
 master_doc = "index"
 
-autodoc_mock_imports = ["pandas"]
+# Corrige problema de build no ambiente do RTD relacionados as dependencias.
+# https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#confval-autodoc_mock_imports
+autodoc_mock_imports = [
+    "pandas",
+    "sqlalchemy",
+]
