@@ -13,7 +13,11 @@
 import os
 import sys
 
-sys.path.insert(0, "..")
+# sys.path.insert(0, "..")
+
+# If you have setup your sphinx project to use separate build and source directories, that call should instead be:
+# https://stackoverflow.com/questions/10324393/sphinx-build-fail-autodoc-cant-import-find-module
+sys.path.insert(0, os.path.abspath("../.."))
 
 
 # -- Project information -----------------------------------------------------
