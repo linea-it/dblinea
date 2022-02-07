@@ -1,4 +1,4 @@
-dblinea package
+API Reference
 ===============
 
 Submodules
