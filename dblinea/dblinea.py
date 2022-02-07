@@ -99,8 +99,8 @@ class DBBase:
             cada elemento da lista representa um db.
 
             exemplo:
-            [{'config_name': 'gavo', 'dbname': 'prod_gavo',
-            'host': 'desdb4.linea.gov.br', 'engine': 'postgresql_psycopg2'}]
+            [{'config_name': 'gavo', 'dbname': '<database_name>',
+            'host': '<database_host.linea.gov.br>', 'engine': 'postgresql_psycopg2'}]
         """
 
         dbs = list()
