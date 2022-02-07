@@ -10,7 +10,11 @@ Welcome to dblinea's documentation!
    :maxdepth: 4
    :caption: Contents:
 
+   quickstart
+   userguide
+   tutorial
    dblinea
+   developer
 
 
 Indices and tables
