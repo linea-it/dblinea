@@ -1,5 +1,7 @@
 # LIneA Database Library
+
 ---
+
 [![Python package](https://github.com/linea-it/dblinea/actions/workflows/python-package.yml/badge.svg?branch=main)](https://github.com/linea-it/dblinea/actions/workflows/python-package.yml)
 [![Coverage Status](https://coveralls.io/repos/github/linea-it/dblinea/badge.svg?branch=main)](https://coveralls.io/github/linea-it/dblinea?branch=main)
 
@@ -73,6 +75,10 @@ python3.8 -m venv venv
 source venv/bin/activate
 ```
 
+```bash
+pip install sqlalchemy psycopg2 numpy pandas
+```
+
 Para instalar usando o pacote local
 
 ```bash
@@ -123,10 +129,13 @@ twine upload dist/*
 ```
 
 Executar o Lint em busca de errors de sintaxe ou formatação.
+
 ```bash
 black . --check
 ```
+
 Executar o Lint para corrigir automaticamente os errors encontrados.
+
 ```bash
 black .
 ```
@@ -134,3 +143,20 @@ black .
 <!-- ```bash
 flake8 . --count  --max-complexity=10 --max-line-length=127 --statistics
 ``` -->
+
+### Documentation with sphinx
+
+Generate Api Docs
+
+```bash
+cd docs
+sphinx-apidoc -f -o ./source ../dblinea
+```
+
+Build html docs
+
+```bash
+make html
+```
+
+# TODO: Trocar Coveralls por codecov <https://about.codecov.io/>
