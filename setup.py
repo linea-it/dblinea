@@ -6,10 +6,9 @@ with open("README.md", "r") as fh:
 setup(
     name="dblinea",
     packages=find_packages(include=["dblinea"]),
-    version="0.1.8",
+    version="0.1.9",
     description="Python library to access LIneA's database from Python code. "
     "Useful to retrieve data inside LIneA's JupyterHub platform.",
-    author="Glauber Costa Vila Verde",
     license="MIT",
     python_requires=">=3.8",
     setup_requires=["pytest-runner", "numpy"],
@@ -18,6 +17,7 @@ setup(
         "psycopg2>=2.9.1",
         "numpy>=1.19.4",
         "pandas>=1.2.0",
+        "requests>=2.23.0",
     ],
     tests_require=["pytest==4.4.1"],
     test_suite="tests",
