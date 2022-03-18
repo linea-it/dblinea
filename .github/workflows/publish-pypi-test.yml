@@ -1,4 +1,4 @@
-name: Publish Tags on PyPi TEST when GitHub Pull request is Closed
+name: Publish on PyPi Test 
 
 # Controls when the workflow will run
 on:
