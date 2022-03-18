@@ -1,7 +1,14 @@
 name: Publish Tags on PyPi when GitHub creates a release
 
 # Controls when the workflow will run
-on: push
+on:
+  push:
+    # Triggers the workflow on create a tag starts with v
+    branches:
+      - master
+    # Triggers the workflow on create a tag starts with v
+    tags: 
+      - 'v**'      
 
 jobs:
   publish:
