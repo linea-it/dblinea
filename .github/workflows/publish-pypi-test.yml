@@ -1,11 +1,12 @@
-name: Publish Tags on PyPi when GitHub creates a release
+name: Publish Tags on PyPi TEST when GitHub Pull request is Closed
 
 # Controls when the workflow will run
 on:
-  push:
-    # Triggers the workflow on create a tag starts with v
-    tags: 
-      - 'v**'      
+  pull_request:
+    types:
+    - closed
+    branches:
+    - master
 
 jobs:
   publish:
@@ -25,10 +26,10 @@ jobs:
         run: |
           python setup.py sdist bdist_wheel
 
-      - name: Publish distribution to PyPI
-        if: startsWith(github.ref, 'refs/tags')
+      - name: Publish distribution to Test PyPI
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
         run: |
-          twine upload dist/*        
+          twine upload --repository testpypi dist/*
+
