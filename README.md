@@ -30,9 +30,10 @@ Install **dblinea** with pip
 * psycopg2>=2.9.1
 * numpy>=1.19.4
 * pandas>=1.2.0
+* astropy>=5.0.0
 
 ```bash
-pip install sqlalchemy psycopg2 numpy pandas
+pip install sqlalchemy psycopg2 numpy pandas astropy
 ```
 
 ## Future plans
@@ -79,7 +80,7 @@ source venv/bin/activate
 ```
 
 ```bash
-pip install sqlalchemy psycopg2 numpy pandas
+pip install sqlalchemy psycopg2 numpy pandas astropy
 ```
 
 Para instalar usando o pacote local

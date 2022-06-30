@@ -11,15 +11,16 @@ setup(
     "Useful to retrieve data inside LIneA's JupyterHub platform.",
     license="MIT",
     python_requires=">=3.8",
-    setup_requires=["pytest-runner", "numpy"],
+    setup_requires=["pytest-runner", "numpy", "astropy"],
     install_requires=[
         "sqlalchemy>=1.4.25",
         "psycopg2-binary>=2.9.1",
         "numpy>=1.19.4",
         "pandas>=1.2.0",
         "requests>=2.23.0",
+        "astropy>=5.0.0",
     ],
-    tests_require=["pytest==4.4.1"],
+    tests_require=["pytest==4.4.1", "astropy"],
     test_suite="tests",
     # Long description of your library
     long_description=long_description,

@@ -11,6 +11,10 @@ from sqlalchemy.engine.cursor import LegacyCursorResult
 from sqlalchemy.sql.elements import TextClause
 from sqlalchemy.types import INTEGER, VARCHAR
 
+# import astropy
+
+# astropy.test()
+
 
 class TestAbilityToTest(unittest.TestCase):
     def test_ability_to_test(self):
@@ -100,15 +104,15 @@ class TestDaoPostgres(unittest.TestCase):
 
     def test_get_dialect(self):
 
-        self.assertEqual(self.dao._database.get_dialect(), postgresql)
+        self.assertIsInstance(self.dao._database.get_dialect(), postgresql.dialect)
 
     def test_accept_bulk_insert(self):
 
         self.assertTrue(self.dao._database.accept_bulk_insert())
 
-    def test_get_table(self):
+    def test_sa_table(self):
 
-        tbl = self.dao.get_table(self.table, self.schema)
+        tbl = self.dao.sa_table(self.table, self.schema)
 
         self.assertTrue(isinstance(tbl, Table))
 
@@ -205,9 +209,9 @@ class TestDaoPostgres(unittest.TestCase):
             str(self.dao.describe_table(self.table, self.schema)), str(columns)
         )
 
-    def test_get_condition_square(self):
+    def test_square_stm(self):
 
         sql = "q3c_poly_query(ra, dec, '{ {10.0, 40.0}, {30.0, 40.0}, {30.0, 20.0}, {10.0, 20.0}}')"
-        stm = self.dao._database.get_condition_square([10, 20], [30, 40], "ra", "dec")
+        stm = self.dao._database.square_stm([10, 20], [30, 40], "ra", "dec")
 
         self.assertEqual(str(stm), sql)
