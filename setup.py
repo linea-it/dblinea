@@ -20,7 +20,7 @@ setup(
         "requests>=2.23.0",
         "astropy>=5.0.0",
     ],
-    tests_require=["pytest==4.4.1"],
+    tests_require=["pytest==4.4.1", "astropy"],
     test_suite="tests",
     # Long description of your library
     long_description=long_description,
