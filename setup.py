@@ -11,7 +11,7 @@ setup(
     "Useful to retrieve data inside LIneA's JupyterHub platform.",
     license="MIT",
     python_requires=">=3.8",
-    setup_requires=["pytest-runner", "numpy"],
+    setup_requires=["pytest-runner", "numpy", "astropy"],
     install_requires=[
         "sqlalchemy>=1.4.25",
         "psycopg2-binary>=2.9.1",
