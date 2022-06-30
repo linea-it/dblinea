@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 import collections
+from xmlrpc.client import Boolean
 
 import pandas as pd
+import sqlalchemy
 from sqlalchemy import MetaData, Table, inspect
 from sqlalchemy.sql import text
 
@@ -12,6 +14,7 @@ class DBBase:
 
     _database = None
     _engine = None
+    _debug = False
 
     # TODO: OS dados de coneção com o banco devem vir de outro lugar!
     _available_databases = dict(
@@ -36,7 +39,10 @@ class DBBase:
         dbpass=None,
         dbport=None,
         dbengine="postgresql_psycopg2",
+        debug: Boolean = False,
     ):
+        self._debug = debug
+
         # Se todas as variaveis de configuração forem None
         # Vai criar a conexão usando um dos _available_databases.
         # Default "gavo" ou o valor informado pelo usuario em database
@@ -61,6 +67,9 @@ class DBBase:
             }
 
             self._database = DBPostgresql(db_settings)
+
+    def _setdebug(self, debug: Boolean):
+        self._debug = debug
 
     def __set_database(self, database):
         """Instancia a classe de Banco de dados.
@@ -135,8 +144,9 @@ class DBBase:
 
         return self._engine
 
-    def get_table(self, tablename, schema=None):
+    def sa_table(self, tablename: str, schema: str = None) -> sqlalchemy.schema.Table:
         """Retona uma instancia de sqlalchemy.schema.Table que representa uma tabela no database.
+
         https://docs.sqlalchemy.org/en/14/core/metadata.html#sqlalchemy.schema.Table
 
         Args:
@@ -146,6 +156,7 @@ class DBBase:
         Returns:
             sqlalchemy.schema.Table: instancia de Table representando a tabela solicitada.
         """
+
         engine = self.get_engine()
         tbl = Table(tablename, MetaData(engine), autoload=True, schema=schema)
         return tbl
@@ -162,6 +173,8 @@ class DBBase:
         Returns:
             CursorResult: [description]
         """
+        self._debug_query(stm)
+
         with self.get_engine().connect() as con:
             return con.execute(stm)
 
@@ -177,6 +190,8 @@ class DBBase:
         """
         # Convert Raw sql to Sql Alchemy TextClause
         stm = self.raw_sql_to_stm(stm)
+
+        self._debug_query(stm)
 
         with self.get_engine().connect() as con:
             queryset = con.execute(stm).fetchall()
@@ -195,6 +210,8 @@ class DBBase:
         """
         # Convert Raw sql to Sql Alchemy TextClause
         stm = self.raw_sql_to_stm(stm)
+
+        self._debug_query(stm)
 
         with self.get_engine().connect() as con:
             queryset = con.execute(stm)
@@ -215,6 +232,8 @@ class DBBase:
         Returns:
             Pandas.Dataframe: Dataframe com o resultado da query.
         """
+        self._debug_query(stm)
+
         df = pd.read_sql(stm, con=self.get_engine())
 
         return df
@@ -229,7 +248,7 @@ class DBBase:
         Returns:
             sqlalchemy.engine.row.LegacyRow: Primeira linha do resultado da query.
         """
-
+        self._debug_query(stm)
         # Convert Raw sql to Sql Alchemy TextClause
         stm = self.raw_sql_to_stm(stm)
 
@@ -247,6 +266,7 @@ class DBBase:
         Returns:
             dict: Primeira linha do resultado da query.
         """
+        self._debug_query(stm)
         # Convert Raw sql to Sql Alchemy TextClause
         stm = self.raw_sql_to_stm(stm)
 
@@ -269,6 +289,7 @@ class DBBase:
         Returns:
             any: Valor da primeira coluna na primeira linha.
         """
+        self._debug_query(stm)
         # Convert Raw sql to Sql Alchemy TextClause
         stm = self.raw_sql_to_stm(stm)
 
@@ -332,3 +353,24 @@ class DBBase:
             cols.append(dict({"name": c["name"], "type": c["type"]}))
 
         return cols
+
+    def stm_to_str(self, stm, with_parameters=True):
+        sql = str(
+            stm.compile(
+                dialect=self._database.get_dialect(),
+                compile_kwargs={"literal_binds": with_parameters},
+            )
+        )
+
+        # Remove new lines
+        sql = sql.replace("\n", " ").replace("\r", "")
+
+        return sql
+
+    def _debug_query(self, stm):
+
+        if not isinstance(stm, str):
+            stm = self.stm_to_str(stm)
+
+        if self._debug:
+            print(stm)

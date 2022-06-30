@@ -8,7 +8,7 @@ class DBPostgresql:
 
     __engine_name = "postgresql_psycopg2"
 
-    __dialect = postgresql
+    __dialect = postgresql.dialect()
 
     # Bulk Insert (se é possivel fazer inserts em blocos.)
     __bulk_insert = True
@@ -52,34 +52,45 @@ class DBPostgresql:
     def accept_bulk_insert(self):
         return self.__bulk_insert
 
-    def get_condition_square(
-        self, lowerleft, upperright, property_ra="ra", property_dec="dec"
+    def square_stm(
+        self, lower_left: list, upper_right: list, ra_name="ra", dec_name="dec"
     ):
 
-        raul = float(lowerleft[0])
-        decul = float(upperright[1])
+        raul = float(lower_left[0])
+        decul = float(upper_right[1])
         ul = "{%s, %s}" % (raul, decul)
 
-        raur = float(upperright[0])
-        decur = float(upperright[1])
+        raur = float(upper_right[0])
+        decur = float(upper_right[1])
         ur = "{%s, %s}" % (raur, decur)
 
-        ralr = float(upperright[0])
-        declr = float(lowerleft[1])
+        ralr = float(upper_right[0])
+        declr = float(lower_left[1])
         lr = "{%s, %s}" % (ralr, declr)
 
-        rall = float(lowerleft[0])
-        decll = float(lowerleft[1])
+        rall = float(lower_left[0])
+        decll = float(lower_left[1])
         ll = "{%s, %s}" % (rall, decll)
 
         # ul, ur, lr, ll
         stm = "q3c_poly_query(%s, %s, '{ %s, %s, %s, %s}')" % (
-            property_ra,
-            property_dec,
+            ra_name,
+            dec_name,
             ul,
             ur,
             lr,
             ll,
+        )
+
+        return and_(text(stm)).self_group()
+
+    def cone_search_stm(
+        self, ra: float, dec: float, radius: float, ra_name="ra", dec_name="dec"
+    ):
+
+        # ul, ur, lr, ll
+        stm = "q3c_radial_query({}, {}, {}, {}, {})".format(
+            ra_name, dec_name, ra, dec, radius
         )
 
         return and_(text(stm)).self_group()
