@@ -79,7 +79,7 @@ source venv/bin/activate
 ```
 
 ```bash
-pip install sqlalchemy psycopg2 numpy pandas
+pip install sqlalchemy psycopg2 numpy pandas astropy
 ```
 
 Para instalar usando o pacote local
