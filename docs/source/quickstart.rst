@@ -1,37 +1,28 @@
 Quickstart
 ==========
 
-   .. todo:: Adicionar texto sobre a biblioteca e seu uso
+The Python library `dblinea` is available on the default environment of [LIneA JupyterJub](https://jupyter.linea.org.br) and can be simply imported as a regular Python library:
+
+   .. code:: python
+      
+      import dblinea
+
+The connection with the database is done by the class _DBBase_.
+An example of usage is to create an instance of _DBBase_ to make queries to the database.
+   
+   .. code:: python
+      
+      from dblinea import DBBase
+      db = DBBase()
+      db.describe_table("coadd_objects", schema = "des_dr2")
 
 
 Installation
 ------------
-   .. todo:: Texto sobre a instalação
+
+   For security reasons, the library is restricted to be used inside LIneA's JupyterHub environment and does not require any installation for regular users. 
 
 
-Installation using Pip
-^^^^^^^^^^^^^^^^^^^^^^
-
-While ``pip`` can be used to install dblinea, we suggest the following approach
-for reliable installation when many Python environments are available.
-
-1. Install dblinea::
-
-     $ python3 -m pip install dblinea
-
-To update a previously installed dblinea to a newer version, use: ``python3 -m pip install -U dblinea``
-
-
-Getting started
----------------
-.. todo:: adicionar exemplos simples do uso da biblioteca
-
-
-
-Tutorial
---------
-
-The best way to learn more about dblinea is by reviewing the dblinea tutorials.
 
 
 
