@@ -1,37 +1,45 @@
 Quickstart
 ==========
 
-   .. todo:: Adicionar texto sobre a biblioteca e seu uso
-
-
 Installation
 ------------
-   .. todo:: Texto sobre a instalação
+
+  
+   For security reasons, the library usage is restricted to `LIneA's JupyterJub <https://jupyter.linea.org.br>`_ environment and does not require any installation by the users. 
 
 
-Installation using Pip
-^^^^^^^^^^^^^^^^^^^^^^
 
-While ``pip`` can be used to install dblinea, we suggest the following approach
-for reliable installation when many Python environments are available.
+Import dblinea
+------------
 
-1. Install dblinea::
+The Python library `dblinea` can be simply imported as a regular Python library.
 
-     $ python3 -m pip install dblinea
+   .. code:: python
+      
+      import dblinea
 
-To update a previously installed dblinea to a newer version, use: ``python3 -m pip install -U dblinea``
-
-
-Getting started
----------------
-.. todo:: adicionar exemplos simples do uso da biblioteca
+The connection with the database is done by the class `DBBase`.
+An example of usage is to create an instance of `DBBase` to make queries to the database.
+   
+   .. code:: python
+      
+      from dblinea import DBBase
+      db = DBBase()
+      db.describe_table("coadd_objects", schema = "des_dr2")
 
 
 
 Tutorial
---------
+------------
 
-The best way to learn more about dblinea is by reviewing the dblinea tutorials.
+The best way to learn more about `dblinea` is by the tutorial notebook *2-acesso-a-dados.ipynb* available on the GitHub repository `jupyterhub-tutorial <https://github.com/linea-it/jupyterhub-tutorial>`_. To access the notebook, once you are logged in on LIneA JupyterHub, please clone the tutorials repository. 
+
+On Jupyter Lab's Terminal, run:
+
+   .. code:: shell
+
+      $ git clone https://github.com/linea-it/jupyterhub-tutorial.git 
+
 
 
 

@@ -1,4 +1,4 @@
-API Reference
+dblinea package
 ===============
 
 Submodules
@@ -16,6 +16,30 @@ dblinea.dblinea module
 ----------------------
 
 .. automodule:: dblinea.dblinea
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dblinea.queryset module
+-----------------------
+
+.. automodule:: dblinea.queryset
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dblinea.scienceserver module
+----------------------------
+
+.. automodule:: dblinea.scienceserver
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dblinea.table module
+--------------------
+
+.. automodule:: dblinea.table
    :members:
    :undoc-members:
    :show-inheritance:
