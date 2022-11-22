@@ -11,7 +11,6 @@ Welcome to dblinea's documentation!
    :caption: Contents:
 
    quickstart
-   tutorial
    dblinea
    developer
 
