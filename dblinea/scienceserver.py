@@ -1,9 +1,10 @@
-import requests
 import json
-from requests.auth import HTTPBasicAuth
-import pandas as pd
 from io import StringIO
 from urllib.parse import urljoin
+
+import pandas as pd
+import requests
+from requests.auth import HTTPBasicAuth
 
 
 class ScienceServerApi:

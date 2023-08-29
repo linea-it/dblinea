@@ -1,7 +1,9 @@
 from xmlrpc.client import Boolean
-from dblinea.dblinea import DBBase
+
 from sqlalchemy import Date, cast, func
 from sqlalchemy.sql import and_, select
+
+from dblinea.dblinea import DBBase
 from dblinea.queryset import Queryset
 
 

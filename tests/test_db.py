@@ -2,17 +2,18 @@ import os
 import unittest
 
 import pandas as pd
-from dblinea import DBBase
+import psycopg2
 from pandas.testing import assert_frame_equal
+from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 from sqlalchemy import Table
 from sqlalchemy.dialects import postgresql
 from sqlalchemy.engine import Engine
 from sqlalchemy.engine.cursor import CursorResult
+from sqlalchemy.sql import and_, text
 from sqlalchemy.sql.elements import TextClause
 from sqlalchemy.types import INTEGER, VARCHAR
-from sqlalchemy.sql import text, and_
-import psycopg2
-from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
+
+from dblinea import DBBase
 
 
 class TestAbilityToTest(unittest.TestCase):

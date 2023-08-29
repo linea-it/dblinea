@@ -55,22 +55,22 @@ class DBPostgresql:
     ):
         raul = float(lower_left[0])
         decul = float(upper_right[1])
-        ul = "{%s, %s}" % (raul, decul)
+        ul = "{{{}, {}}}".format(raul, decul)
 
         raur = float(upper_right[0])
         decur = float(upper_right[1])
-        ur = "{%s, %s}" % (raur, decur)
+        ur = "{{{}, {}}}".format(raur, decur)
 
         ralr = float(upper_right[0])
         declr = float(lower_left[1])
-        lr = "{%s, %s}" % (ralr, declr)
+        lr = "{{{}, {}}}".format(ralr, declr)
 
         rall = float(lower_left[0])
         decll = float(lower_left[1])
-        ll = "{%s, %s}" % (rall, decll)
+        ll = "{{{}, {}}}".format(rall, decll)
 
         # ul, ur, lr, ll
-        stm = "q3c_poly_query(%s, %s, '{ %s, %s, %s, %s}')" % (
+        stm = "q3c_poly_query({}, {}, '{{ {}, {}, {}, {}}}')".format(
             ra_name,
             dec_name,
             ul,

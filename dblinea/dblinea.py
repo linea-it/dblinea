@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from xmlrpc.client import Boolean
 
 import pandas as pd

@@ -1,6 +1,7 @@
+import os
+
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
-import os
 
 dbhost = os.environ.get("POSTGRES_HOST", "localhost")
 dbport = os.environ.get("POSTGRES_PORT", "5432")
