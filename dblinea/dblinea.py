@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import collections
 from xmlrpc.client import Boolean
 
 import pandas as pd
@@ -11,7 +10,6 @@ from dblinea.db_postgresql import DBPostgresql
 
 
 class DBBase:
-
     _database = None
     _engine = None
     _debug = False
@@ -60,7 +58,7 @@ class DBBase:
             db_settings = {
                 "ENGINE": dbengine,
                 "HOST": dbhost,
-                "PORT": "5432",
+                "PORT": dbport,
                 "USER": dbuser,
                 "PASSWORD": dbpass,
                 "DATABASE": dbname,
@@ -139,7 +137,6 @@ class DBBase:
         """
 
         if self._engine is None:
-
             self._engine = self._database.get_engine()
 
         return self._engine
@@ -158,7 +155,8 @@ class DBBase:
         """
 
         engine = self.get_engine()
-        tbl = Table(tablename, MetaData(engine), autoload=True, schema=schema)
+        # tbl = Table(tablename, MetaData(engine), autoload=True, schema=schema)
+        tbl = Table(tablename, MetaData(schema=schema), schema=schema)
         return tbl
 
     def execute(self, stm):
@@ -174,6 +172,8 @@ class DBBase:
             CursorResult: [description]
         """
         self._debug_query(stm)
+        if isinstance(stm, str):
+            stm = text(stm)
 
         with self.get_engine().connect() as con:
             return con.execute(stm)
@@ -305,7 +305,7 @@ class DBBase:
         Returns:
             dict : Row convertida para Dict {colname: value, colname2: value2 ...}
         """
-        return dict(collections.OrderedDict(row))
+        return row._asdict()
 
     def raw_sql_to_stm(self, stm):
         """Converte uma string raw sql para SqlAlchemy TextClause
@@ -368,7 +368,6 @@ class DBBase:
         return sql
 
     def _debug_query(self, stm):
-
         if not isinstance(stm, str):
             stm = self.stm_to_str(stm)
 
