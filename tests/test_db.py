@@ -9,7 +9,6 @@ from sqlalchemy import Table
 from sqlalchemy.dialects import postgresql
 from sqlalchemy.engine import Engine
 from sqlalchemy.engine.cursor import CursorResult
-from sqlalchemy.sql import and_, text
 from sqlalchemy.sql.elements import TextClause
 from sqlalchemy.types import INTEGER, VARCHAR
 
@@ -34,9 +33,7 @@ class TestDaoPostgres(unittest.TestCase):
         self.table = "tb_sample"
 
         # Create a Test database
-        con = psycopg2.connect(
-            host=self.dbhost, user=self.dbuser, password=self.dbpass, port=self.dbport
-        )
+        con = psycopg2.connect(host=self.dbhost, user=self.dbuser, password=self.dbpass, port=self.dbport)
         con.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
         with con.cursor() as cursor:
             cursor.execute(f"DROP DATABASE IF EXISTS {self.dbname}")
@@ -83,16 +80,12 @@ class TestDaoPostgres(unittest.TestCase):
         # Create Schema
         with con.cursor() as cursor:
             # Insert new record
-            cursor.execute(
-                f"insert into {self.schema}.{self.table} values (1, 'jose', 30)"
-            )
+            cursor.execute(f"insert into {self.schema}.{self.table} values (1, 'jose', 30)")
             cursor.close()
             con.commit()
 
     def test_get_db_uri(self):
-        uri = (
-            "postgresql+psycopg2://%(username)s:%(password)s@%(host)s:%(port)s/%(database)s"
-        ) % {
+        uri = ("postgresql+psycopg2://%(username)s:%(password)s@%(host)s:%(port)s/%(database)s") % {
             "username": self.dbuser,
             "password": self.dbpass,
             "host": self.dbhost,
@@ -157,9 +150,7 @@ class TestDaoPostgres(unittest.TestCase):
         self.assertEqual(tbl.name, self.table)
 
     def test_execute(self):
-        sql = "insert into {schema}.{table} values (1, 'jose', 30)".format(
-            schema=self.schema, table=self.table
-        )
+        sql = "insert into {schema}.{table} values (1, 'jose', 30)".format(schema=self.schema, table=self.table)
 
         result = self.dao.execute(sql)
 
@@ -241,9 +232,7 @@ class TestDaoPostgres(unittest.TestCase):
         ]
 
         # OBS: A comparação só ficou igual quando convertido para String.
-        self.assertEqual(
-            str(self.dao.describe_table(self.table, self.schema)), str(columns)
-        )
+        self.assertEqual(str(self.dao.describe_table(self.table, self.schema)), str(columns))
 
     def test_square_stm(self):
         sql = "q3c_poly_query(ra, dec, '{ {10.0, 40.0}, {30.0, 40.0}, {30.0, 20.0}, {10.0, 20.0}}')"

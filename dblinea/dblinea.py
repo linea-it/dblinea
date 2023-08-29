@@ -152,9 +152,6 @@ class DBBase:
         Returns:
             sqlalchemy.schema.Table: instancia de Table representando a tabela solicitada.
         """
-
-        engine = self.get_engine()
-        # tbl = Table(tablename, MetaData(engine), autoload=True, schema=schema)
         tbl = Table(tablename, MetaData(schema=schema), schema=schema)
         return tbl
 

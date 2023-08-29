@@ -4,7 +4,6 @@ from urllib.parse import urljoin
 
 import pandas as pd
 import requests
-from requests.auth import HTTPBasicAuth
 
 
 class ScienceServerApi:
@@ -296,7 +295,6 @@ class ScienceServerApi:
                     "date": data["prd_date"],
                     "internal_name": data["prd_name"],
                     "display_name": data["prd_display_name"],
-                    "display_name": data["prd_display_name"],
                     "tbl_schema": data["tbl_schema"],
                     "tbl_name": data["tbl_name"],
                     "rows": data["tbl_rows"],
@@ -367,9 +365,7 @@ class ScienceServerApi:
         )
         str_csv = f.getvalue()
 
-        return self.__register_target_list(
-            name, str_csv, cls, releases, description, base64=False, mime="csv"
-        )
+        return self.__register_target_list(name, str_csv, cls, releases, description, base64=False, mime="csv")
 
     def target_list_from_df(
         self,
@@ -389,9 +385,7 @@ class ScienceServerApi:
         )
         str_csv = f.getvalue()
 
-        return self.__register_target_list(
-            name, str_csv, cls, releases, description, base64=False, mime="csv"
-        )
+        return self.__register_target_list(name, str_csv, cls, releases, description, base64=False, mime="csv")
 
     def remove_target_list(self, id):
         url = urljoin(self._base_api_url, "catalog/%s/" % int(id))
@@ -399,9 +393,7 @@ class ScienceServerApi:
         result = self._delete_request(url)
 
         if result is True:
-            return dict(
-                {"success": True, "message": "Target List successfully removed"}
-            )
+            return dict({"success": True, "message": "Target List successfully removed"})
         else:
             return result
 

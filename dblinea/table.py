@@ -1,6 +1,5 @@
 from xmlrpc.client import Boolean
 
-from sqlalchemy import Date, cast, func
 from sqlalchemy.sql import and_, select
 
 from dblinea.dblinea import DBBase
@@ -15,9 +14,7 @@ class Table:
 
     columns = None
 
-    def __init__(
-        self, dbbase: DBBase, tablename: str, schema: str = None, debug: Boolean = False
-    ):
+    def __init__(self, dbbase: DBBase, tablename: str, schema: str = None, debug: Boolean = False):
         if not isinstance(dbbase, DBBase):
             raise Exception("Necessário uma instancia da classe DBBase")
 
@@ -55,12 +52,8 @@ class Table:
 
         return Queryset(self._db.fetchall(stm))
 
-    def cone_search_stm(
-        self, ra: float, dec: float, radius: float, ra_name="ra", dec_name="dec"
-    ):
+    def cone_search_stm(self, ra: float, dec: float, radius: float, ra_name="ra", dec_name="dec"):
         return self._db._database.cone_search_stm(ra, dec, radius, ra_name, dec_name)
 
-    def square_stm(
-        self, lower_left: list, upper_right: list, ra_name="ra", dec_name="dec"
-    ):
+    def square_stm(self, lower_left: list, upper_right: list, ra_name="ra", dec_name="dec"):
         return self._db._database.square_stm(lower_left, upper_right, ra_name, dec_name)

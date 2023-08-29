@@ -1,4 +1,4 @@
-from dblinea import DBBase, Table
+from dblinea import DBBase
 
 db = DBBase(database="test")
 print(db)
