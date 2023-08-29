@@ -19,6 +19,7 @@
 		"ghcr.io/devcontainers-contrib/features/black:2": {
 			"version": "latest"
 		},
+		"ghcr.io/devcontainers-contrib/features/pre-commit:2": {},
 		"ghcr.io/devcontainers-contrib/features/zsh-plugins:0": {
 			"plugins": "ssh-agent npm",
 			"omzPlugins": "https://github.com/zsh-users/zsh-autosuggestions",

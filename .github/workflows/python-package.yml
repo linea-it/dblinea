@@ -37,7 +37,7 @@ jobs:
           --health-retries 5
         ports:
           # Maps tcp port 5432 on service container to the host
-          - 5432:5432          
+          - 5432:5432
 
     steps:
     - uses: actions/checkout@v2
@@ -45,24 +45,24 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-        
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         python -m pip install flake8 black pytest pytest-cov
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-        
+
     - name: Lint with flake8 and Black
       run: |
         # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics       
-        
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-               
+
         # Any error reported by black will stop the build.
         black . --check
-        
+
     - name: Setup Test Database
       # Runs a script that creates a PostgreSQL table, populates
       # the table with data, and then retrieves the data
@@ -78,8 +78,8 @@ jobs:
         POSTGRES_USER: postgres
         # The default PostgreSQL Password
         POSTGRES_PASSWORD: postgres
-    
-    - name: Test with pytest   
+
+    - name: Test with pytest
       run: |
         pytest --cov --cov-report term-missing --cov-report html
 

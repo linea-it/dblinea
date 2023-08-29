@@ -33,9 +33,9 @@ class TestDaoPostgres(unittest.TestCase):
 
         # Create a Test database
         con = psycopg2.connect(
-            host=self.dbhost, 
-            user=self.dbuser, 
-            password=self.dbpass, 
+            host=self.dbhost,
+            user=self.dbuser,
+            password=self.dbpass,
             port=self.dbport
         )
         con.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
@@ -45,10 +45,10 @@ class TestDaoPostgres(unittest.TestCase):
             cursor.close()
 
         con = psycopg2.connect(
-            host=self.dbhost, 
-            user=self.dbuser, 
+            host=self.dbhost,
+            user=self.dbuser,
             password=self.dbpass,
-            port=self.dbport, 
+            port=self.dbport,
             database=self.dbname
         )
         # Create Schema
@@ -73,10 +73,10 @@ class TestDaoPostgres(unittest.TestCase):
 
     def add_valid_record(self):
         con = psycopg2.connect(
-            host=self.dbhost, 
-            user=self.dbuser, 
+            host=self.dbhost,
+            user=self.dbuser,
             password=self.dbpass,
-            port=self.dbport, 
+            port=self.dbport,
             database=self.dbname
         )
         # Create Schema

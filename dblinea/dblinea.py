@@ -110,7 +110,7 @@ class DBBase:
             'host': '<database_host.linea.gov.br>', 'engine': 'postgresql_psycopg2'}]
         """
 
-        dbs = list()
+        dbs = []
         for config_name in self._available_databases:
             dbs.append(
                 dict(
@@ -216,7 +216,7 @@ class DBBase:
         with self.get_engine().connect() as con:
             queryset = con.execute(stm)
 
-            rows = list()
+            rows = []
             for row in queryset:
                 rows.append(self.to_dict(row))
 
@@ -346,7 +346,7 @@ class DBBase:
             list: Lista de colunas com seu tipo
         """
 
-        cols = list()
+        cols = []
 
         insp = inspect(self.get_engine())
         for c in insp.get_columns(tablename, schema):
