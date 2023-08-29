@@ -14,6 +14,7 @@ from sqlalchemy.sql import text, and_
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
+
 class TestAbilityToTest(unittest.TestCase):
     def test_ability_to_test(self):
         # Apenas verifica se é possivel executar os testes.
@@ -33,10 +34,7 @@ class TestDaoPostgres(unittest.TestCase):
 
         # Create a Test database
         con = psycopg2.connect(
-            host=self.dbhost,
-            user=self.dbuser,
-            password=self.dbpass,
-            port=self.dbport
+            host=self.dbhost, user=self.dbuser, password=self.dbpass, port=self.dbport
         )
         con.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
         with con.cursor() as cursor:
@@ -49,7 +47,7 @@ class TestDaoPostgres(unittest.TestCase):
             user=self.dbuser,
             password=self.dbpass,
             port=self.dbport,
-            database=self.dbname
+            database=self.dbname,
         )
         # Create Schema
         with con.cursor() as cursor:
@@ -57,7 +55,9 @@ class TestDaoPostgres(unittest.TestCase):
             cursor.execute(f"CREATE SCHEMA {self.schema};")
             # Create sample Table
             cursor.execute(f"DROP TABLE IF EXISTS {self.schema}.{self.table}")
-            cursor.execute(f"create table {self.schema}.{self.table} (id serial primary key, name varchar(100), age int)")
+            cursor.execute(
+                f"create table {self.schema}.{self.table} (id serial primary key, name varchar(100), age int)"
+            )
             cursor.close()
             con.commit()
 
@@ -77,15 +77,16 @@ class TestDaoPostgres(unittest.TestCase):
             user=self.dbuser,
             password=self.dbpass,
             port=self.dbport,
-            database=self.dbname
+            database=self.dbname,
         )
         # Create Schema
         with con.cursor() as cursor:
             # Insert new record
-            cursor.execute(f"insert into {self.schema}.{self.table} values (1, 'jose', 30)")
+            cursor.execute(
+                f"insert into {self.schema}.{self.table} values (1, 'jose', 30)"
+            )
             cursor.close()
             con.commit()
-
 
     def test_get_db_uri(self):
         uri = (
@@ -113,7 +114,6 @@ class TestDaoPostgres(unittest.TestCase):
         self.assertEqual(dao._database.get_db_uri(), uri)
 
     def test_set_database(self):
-
         dao = DBBase(database="gavo")
 
         engine = dao.get_engine()
@@ -121,7 +121,6 @@ class TestDaoPostgres(unittest.TestCase):
         self.assertTrue(isinstance(engine, Engine))
 
     def test_set_database_not_available(self):
-
         self.assertRaises(Exception, DBBase.__init__, "test")
 
         # Same Test using Context
@@ -130,7 +129,6 @@ class TestDaoPostgres(unittest.TestCase):
         self.assertTrue("Database not available." in str(context.exception))
 
     def test_available_databases(self):
-
         rows = [
             {
                 "config_name": "gavo",
@@ -142,15 +140,12 @@ class TestDaoPostgres(unittest.TestCase):
         self.assertEqual(self.dao.available_databases(), rows)
 
     def test_get_engine_name(self):
-
         self.assertEqual(self.dao._database.get_engine_name(), "postgresql_psycopg2")
 
     def test_get_dialect(self):
-
         self.assertIsInstance(self.dao._database.get_dialect(), postgresql.dialect)
 
     def test_accept_bulk_insert(self):
-
         self.assertTrue(self.dao._database.accept_bulk_insert())
 
     def test_sa_table(self):
@@ -161,7 +156,6 @@ class TestDaoPostgres(unittest.TestCase):
         self.assertEqual(tbl.name, self.table)
 
     def test_execute(self):
-
         sql = "insert into {schema}.{table} values (1, 'jose', 30)".format(
             schema=self.schema, table=self.table
         )
@@ -223,7 +217,6 @@ class TestDaoPostgres(unittest.TestCase):
         self.assertEqual(self.dao.to_dict(line), row)
 
     def test_raw_sql_to_stm(self):
-
         stm = self.dao.raw_sql_to_stm(str(self.select_sql))
 
         self.assertTrue(isinstance(stm, TextClause))
@@ -235,13 +228,11 @@ class TestDaoPostgres(unittest.TestCase):
         self.assertEqual(self.dao.raw_sql_to_stm(stm), stm)
 
     def test_get_table_columns(self):
-
         columns = ["id", "name", "age"]
 
         self.assertEqual(self.dao.get_table_columns(self.table, self.schema), columns)
 
     def test_describe_table(self):
-
         columns = [
             {"name": "id", "type": INTEGER()},
             {"name": "name", "type": VARCHAR(length=100)},
@@ -254,7 +245,6 @@ class TestDaoPostgres(unittest.TestCase):
         )
 
     def test_square_stm(self):
-
         sql = "q3c_poly_query(ra, dec, '{ {10.0, 40.0}, {30.0, 40.0}, {30.0, 20.0}, {10.0, 20.0}}')"
         stm = self.dao._database.square_stm([10, 20], [30, 40], "ra", "dec")
 

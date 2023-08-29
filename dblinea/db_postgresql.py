@@ -5,7 +5,6 @@ from sqlalchemy.sql import and_, or_, text
 
 
 class DBPostgresql:
-
     __engine_name = "postgresql_psycopg2"
 
     __dialect = postgresql.dialect()
@@ -17,7 +16,6 @@ class DBPostgresql:
         self.db_settings = db_settings
 
     def get_db_uri(self):
-
         database = self.db_settings.get("DATABASE", None)
         if database is not None:
             uri = (
@@ -55,7 +53,6 @@ class DBPostgresql:
     def square_stm(
         self, lower_left: list, upper_right: list, ra_name="ra", dec_name="dec"
     ):
-
         raul = float(lower_left[0])
         decul = float(upper_right[1])
         ul = "{%s, %s}" % (raul, decul)
@@ -87,7 +84,6 @@ class DBPostgresql:
     def cone_search_stm(
         self, ra: float, dec: float, radius: float, ra_name="ra", dec_name="dec"
     ):
-
         # ul, ur, lr, ll
         stm = "q3c_radial_query({}, {}, {}, {}, {})".format(
             ra_name, dec_name, ra, dec, radius

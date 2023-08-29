@@ -7,7 +7,6 @@ from urllib.parse import urljoin
 
 
 class ScienceServerApi:
-
     _token = None
 
     _enviroments = {
@@ -19,13 +18,11 @@ class ScienceServerApi:
     _base_api_url = None
 
     def __init__(self, token, host="linea"):
-
         self._base_api_url = self._enviroments[host]
 
         self._token = token
 
     def _generate_internal_name(self, name):
-
         return "".join(x if x.isalnum() else "_" for x in name)
 
     def _get_request(self, url, params):
@@ -279,7 +276,6 @@ class ScienceServerApi:
             )
 
     def get_catalog(self, id):
-
         url = urljoin(self._base_api_url, "catalog/")
         params = dict({"id": int(id)})
         result = self._get_request(url, params)
@@ -358,7 +354,6 @@ class ScienceServerApi:
         releases=[],
         description=None,
     ):
-
         # Criar um dataframe e converter para string csv.
         df = pd.DataFrame(data)
 
@@ -383,7 +378,6 @@ class ScienceServerApi:
         releases=[],
         description=None,
     ):
-
         # Converter para string csv.
         f = StringIO()
         df.to_csv(
@@ -399,7 +393,6 @@ class ScienceServerApi:
         )
 
     def remove_target_list(self, id):
-
         url = urljoin(self._base_api_url, "catalog/%s/" % int(id))
 
         result = self._delete_request(url)

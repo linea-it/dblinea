@@ -28,7 +28,6 @@ con = psycopg2.connect(
 )
 
 with con.cursor() as cursor:
-
     # Create Schema
     cursor.execute("DROP SCHEMA IF EXISTS {} CASCADE".format(schema))
     cursor.execute("CREATE SCHEMA {};".format(schema))
