@@ -1,22 +1,22 @@
 from setuptools import find_packages, setup
 
-with open("README.md", "r") as fh:
+with open("README.md") as fh:
     long_description = fh.read()
 
 setup(
     name="dblinea",
     packages=find_packages(include=["dblinea"]),
-    version="0.1.14",
+    version="1.0.0",
     description="Python library to access LIneA's database from Python code. "
     "Useful to retrieve data inside LIneA's JupyterHub platform.",
     license="MIT",
     python_requires=">=3.8",
     setup_requires=["pytest-runner", "numpy", "astropy"],
     install_requires=[
-        "sqlalchemy>=1.4.25",
+        "sqlalchemy>=2.0.0",
         "psycopg2-binary>=2.9.1",
         "numpy>=1.19.4",
-        "pandas>=1.2.0",
+        "pandas>=2.0.0",
         "requests>=2.23.0",
         "astropy>=5.0.0",
     ],

@@ -1,6 +1,7 @@
+import collections
+
 import pandas as pd
 from astropy.table import Table
-import collections
 
 
 class Queryset(list):

@@ -1,11 +1,10 @@
 from sqlalchemy import create_engine
 from sqlalchemy.dialects import postgresql
 from sqlalchemy.pool import NullPool
-from sqlalchemy.sql import and_, or_, text
+from sqlalchemy.sql import and_, text
 
 
 class DBPostgresql:
-
     __engine_name = "postgresql_psycopg2"
 
     __dialect = postgresql.dialect()
@@ -17,12 +16,9 @@ class DBPostgresql:
         self.db_settings = db_settings
 
     def get_db_uri(self):
-
         database = self.db_settings.get("DATABASE", None)
         if database is not None:
-            uri = (
-                "postgresql+psycopg2://%(username)s:%(password)s@%(host)s:%(port)s/%(database)s"
-            ) % {
+            uri = ("postgresql+psycopg2://%(username)s:%(password)s@%(host)s:%(port)s/%(database)s") % {
                 "username": self.db_settings.get("USER"),
                 "password": self.db_settings.get("PASSWORD"),
                 "host": self.db_settings.get("HOST", "localhost"),
@@ -30,9 +26,7 @@ class DBPostgresql:
                 "database": database,
             }
         else:
-            uri = (
-                "postgresql+psycopg2://%(username)s:%(password)s@%(host)s:%(port)s"
-            ) % {
+            uri = ("postgresql+psycopg2://%(username)s:%(password)s@%(host)s:%(port)s") % {
                 "username": self.db_settings.get("USER"),
                 "password": self.db_settings.get("PASSWORD"),
                 "host": self.db_settings.get("HOST", "localhost"),
@@ -52,28 +46,25 @@ class DBPostgresql:
     def accept_bulk_insert(self):
         return self.__bulk_insert
 
-    def square_stm(
-        self, lower_left: list, upper_right: list, ra_name="ra", dec_name="dec"
-    ):
-
+    def square_stm(self, lower_left: list, upper_right: list, ra_name="ra", dec_name="dec"):
         raul = float(lower_left[0])
         decul = float(upper_right[1])
-        ul = "{%s, %s}" % (raul, decul)
+        ul = "{{{}, {}}}".format(raul, decul)
 
         raur = float(upper_right[0])
         decur = float(upper_right[1])
-        ur = "{%s, %s}" % (raur, decur)
+        ur = "{{{}, {}}}".format(raur, decur)
 
         ralr = float(upper_right[0])
         declr = float(lower_left[1])
-        lr = "{%s, %s}" % (ralr, declr)
+        lr = "{{{}, {}}}".format(ralr, declr)
 
         rall = float(lower_left[0])
         decll = float(lower_left[1])
-        ll = "{%s, %s}" % (rall, decll)
+        ll = "{{{}, {}}}".format(rall, decll)
 
         # ul, ur, lr, ll
-        stm = "q3c_poly_query(%s, %s, '{ %s, %s, %s, %s}')" % (
+        stm = "q3c_poly_query({}, {}, '{{ {}, {}, {}, {}}}')".format(
             ra_name,
             dec_name,
             ul,
@@ -84,14 +75,9 @@ class DBPostgresql:
 
         return and_(text(stm)).self_group()
 
-    def cone_search_stm(
-        self, ra: float, dec: float, radius: float, ra_name="ra", dec_name="dec"
-    ):
-
+    def cone_search_stm(self, ra: float, dec: float, radius: float, ra_name="ra", dec_name="dec"):
         # ul, ur, lr, ll
-        stm = "q3c_radial_query({}, {}, {}, {}, {})".format(
-            ra_name, dec_name, ra, dec, radius
-        )
+        stm = "q3c_radial_query({}, {}, {}, {}, {})".format(ra_name, dec_name, ra, dec, radius)
 
         return and_(text(stm)).self_group()
 
@@ -129,7 +115,8 @@ class DBPostgresql:
     #     return sql
 
     # def get_raw_sql_size_table_bytes(self, table, schema=None):
-    #     sql = "SELECT pg_total_relation_size(relid) as size_in_bytes  FROM pg_catalog.pg_statio_user_tables WHERE relname = '%s'" % table
+    #     sql = "SELECT pg_total_relation_size(relid) as size_in_bytes
+    #       FROM pg_catalog.pg_statio_user_tables WHERE relname = '%s'" % table
     #     if schema:
     #         sql += " AND schemaname='%s'" % schema
     #     return sql
@@ -138,5 +125,7 @@ class DBPostgresql:
     #     where = "WHERE table_name = '%s'" % table
     #     if schema:
     #         where += " AND table_schema = '%s'" % schema
-    #     sql = "SELECT count(*) as column_count FROM information_schema.columns %s GROUP by table_name order by column_count desc" % where
+    #     sql = "SELECT count(*) as column_count
+    # FROM information_schema.columns %s
+    # GROUP by table_name order by column_count desc" % where
     #     return sql

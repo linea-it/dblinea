@@ -1,15 +1,14 @@
+import os
+
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
-import os
 
 dbhost = os.environ.get("POSTGRES_HOST", "localhost")
 dbport = os.environ.get("POSTGRES_PORT", "5432")
 dbuser = os.environ.get("POSTGRES_USER", "postgres")
 dbpass = os.environ.get("POSTGRES_PASSWORD", "postgres")
 
-con = psycopg2.connect(
-    host="localhost", user="postgres", password="postgres", port=5432
-)
+con = psycopg2.connect(host="localhost", user="postgres", password="postgres", port=5432)
 con.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
 
 db_name = "db_test"
@@ -23,20 +22,15 @@ with con.cursor() as cursor:
     cursor.close()
 
 
-con = psycopg2.connect(
-    host="localhost", user="postgres", password="postgres", port=5432, database=db_name
-)
+con = psycopg2.connect(host="localhost", user="postgres", password="postgres", port=5432, database=db_name)
 
 with con.cursor() as cursor:
-
     # Create Schema
     cursor.execute("DROP SCHEMA IF EXISTS {} CASCADE".format(schema))
     cursor.execute("CREATE SCHEMA {};".format(schema))
 
     # Create sample Table
-    cursor.execute(
-        "DROP TABLE IF EXISTS {schema}.{table}".format(schema=schema, table=table)
-    )
+    cursor.execute("DROP TABLE IF EXISTS {schema}.{table}".format(schema=schema, table=table))
     cursor.execute(
         "create table {schema}.{table} (id serial primary key, name varchar(100), age int)".format(
             schema=schema, table=table

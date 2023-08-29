@@ -65,15 +65,15 @@ Outro Teste
 
 .. code:: bash
 
-   (env) glauber: ~ $ python 
-   Python 3.8.12 (default, Jan 28 2022, 15:50:21) 
+   (env) glauber: ~ $ python
+   Python 3.8.12 (default, Jan 28 2022, 15:50:21)
    [GCC 7.5.0] on linux
    Type "help", "copyright", "credits" or "license" for more information.
    >>> from dblinea import DBBase
    >>> a = DBBase()
    >>> a.get_engine()
    Engine(postgresql+psycopg2://untrustedprod:***@desdb4.linea.gov.br:5432/prod_gavo)
-   >>> 
+   >>>
 
 Publish in PyPi Test
 ~~~~~~~~~~~~~~~~~~~~
