@@ -11,8 +11,8 @@ class ScienceServerApi:
 
     _enviroments = {
         "localhost": "http://localhost/dri/api/",
-        "linea-dev": "https://scienceserver-dev.linea.gov.br/dri/api/",
-        "linea": "https://scienceserver.linea.gov.br/dri/api/",
+        "linea-dev": "https://scienceserver-dev.linea.org.br/dri/api/",
+        "linea": "https://scienceserver.linea.org.br/dri/api/",
     }
 
     _base_api_url = None
