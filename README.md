@@ -11,6 +11,8 @@
 Python library to access LIneA's database from Python code.
 Useful to retrieve data inside LIneA's JupyterHub platform.
 
+Documentation: [Read the Docs page](https://dblinea.readthedocs.io/)
+
 ## Authors
 
 * [@glaubervila](https://github.com/glaubervila)
