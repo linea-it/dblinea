@@ -1,4 +1,7 @@
-# LIneA Database Library
+# LIneA Database Library - DEPRECATED
+
+
+Please access the [LIneA's TAP Service documentation](https://docs.linea.org.br/en/sci-platforms/user_query.html) to obtain up-to-date information on how to access LIneA's database. 
 
 ---
 
