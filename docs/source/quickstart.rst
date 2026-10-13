@@ -1,6 +1,14 @@
 Quickstart
 ==========
 
+
+DEPRECATED
+------------
+
+
+    This library is deprecated.
+
+
 Installation
 ------------
 
