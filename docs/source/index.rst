@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to dblinea's documentation!
-===================================
+Welcome to dblinea's documentation (DEPRECATED DO NOT USE IT!)
+=============================================================
 
 .. toctree::
    :maxdepth: 4
